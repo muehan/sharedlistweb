@@ -3,9 +3,14 @@
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     
+
+    <input type="text" v-model="newShoppingItem" />
+    <button @click="AddShoppingItem()">Add</button>
+
     <ul>
       <li v-for="item in shoppinglist">
         {{item['.value']}}
+        <button @click="removeShoppingItem(item['.key'])">remove</button>
       </li>
     </ul>
 
@@ -37,12 +42,21 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-
+      newShoppingItem: "",
     }
   },
   firebase: {
     list: sharedList,
     shoppinglist: shoppingRef,
+  },
+  methods: {
+    AddShoppingItem: function() {
+      shoppingRef.push(this.newShoppingItem);
+    },
+    removeShoppingItem: function(key){
+      console.log("remove " + key);
+      shoppingRef.child(key).remove();
+    }
   },
 }
 </script>
