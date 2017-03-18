@@ -33,6 +33,16 @@ var firebaseApp = firebase.initializeApp({
   authDomain: "sharedlist-40f8d.firebaseapp.com",                // Auth with popup/redirect
   databaseURL: "https://sharedlist-40f8d.firebaseio.com"});      // Realtime Database
 
+firebase.auth().signInWithEmailAndPassword("userEmail", "userpassword").catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+
+  console.log(errorCode);
+  console.log(errorMessage);
+  
+});
+
 var db = firebaseApp.database();
 
 var sharedList = db.ref('sharedList');
