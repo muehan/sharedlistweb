@@ -9,8 +9,9 @@
 
     <ul>
       <li v-for="item in shoppinglist">
-        {{item['.value']}}
+        {{item.value}}
         <button @click="removeShoppingItem(item['.key'])">remove</button>
+        <input type="text" v-model="item.value" @change="changeShoppingItem(item)" />
       </li>
     </ul>
 
@@ -51,11 +52,24 @@ export default {
   },
   methods: {
     AddShoppingItem: function() {
-      shoppingRef.push(this.newShoppingItem);
+      var newItem = {
+        value: this.newShoppingItem
+      };
+
+      shoppingRef.push(newItem);
     },
     removeShoppingItem: function(key){
       console.log("remove " + key);
       shoppingRef.child(key).remove();
+    },
+    changeShoppingItem: function(item){
+      var postData = {
+        value: item.value
+      }
+
+      var updates = {};
+      updates['/sharedList/shoppingList/' + item['.key']] = postData;
+      firebase.database().ref().update(updates);
     }
   },
 }
