@@ -2,52 +2,52 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
+    
     <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
+      <li v-for="item in shoppinglist">
+        {{item['.value']}}
+      </li>
     </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+
   </div>
 </template>
 
 <script>
+
+
+import Vue from 'vue';
+import VueFire from 'vuefire';
+import firebase from 'firebase';
+
+// explicit installation required in module environments
+Vue.use(VueFire)
+
+var firebaseApp = firebase.initializeApp({  
+  apiKey: "AIzaSyBBeAqd9qBd_H_JkU5b3YVvWRIFqewqiE0",             // Auth / General Use
+  authDomain: "sharedlist-40f8d.firebaseapp.com",                // Auth with popup/redirect
+  databaseURL: "https://sharedlist-40f8d.firebaseio.com"});      // Realtime Database
+
+var db = firebaseApp.database();
+
+var sharedList = db.ref('sharedList');
+var shoppingRef = db.ref('sharedList/shoppingList');
+
 export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+
     }
-  }
+  },
+  firebase: {
+    list: sharedList,
+    shoppinglist: shoppingRef,
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
